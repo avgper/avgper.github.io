@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: lightgray;
+            font-family: Arial;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        #pascalsContainer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .row {
+            display: flex;
+        }
+
+        .odd {
+            width: 25px;
+            height: 25px;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .even {
+            width: 25px;
+            height: 25px;
+            color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        button {
+            align-items: center;
+            background-color: #fff;
+            border-radius: 6px;
+            box-shadow: transparent 0 0 0 3px,rgba(18, 18, 18, .1) 0 6px 20px;
+            color: #121212;
+            cursor: pointer;
+            display: flex;
+            font-family: Arial;
+            font-size: 1.2rem;
+            font-weight: 700;
+            justify-content: center;
+            line-height: 1;
+            margin-top: 5px;
+            padding: 1rem 1.2rem;
+            text-align: center;
+            transition: box-shadow .2s;
+            border: 0;
+        }
+
+        button:hover {
+            box-shadow: #121212 0 0 0 3px, transparent 0 0 0 0;
+        }
+
+        button:focus {
+            box-shadow: #121212 0 0 0 3px, transparent 0 0 0 0;
+        }
+
+        #rowNum {
+            width: 90px;
+        }
+
+        #settingsBar {
+            background-color: darkgray;
+            padding: 5px 10px 8px 10px;
+            border-bottom: black 1px solid;
+            display: flex;
+        }
+
+        #buttonContainer {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #colorSelect {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #extraOptions {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .separator {
+            height: auto;
+            width: 4px;
+            background-color: black;
+            margin: 0 10px;
+        }
+        
+        span {
+            margin-bottom: 5px;
+            text-align: center;
+            border-bottom: solid black 2px;
+        }
+
+        select {
+            width: 95px;
+        }
+    </style>
+    
+    <title>Sierpińského trojúhelník</title>
+</head>
+<body>
+    <div id="settingsBar">
+        <div id="buttonContainer">
+            <label for="""><b>Zadejte počet řádků:</b>
+                <input id="rowNum" type="number">
+            </label>
+            <button onclick="document.location.reload()">Vygenerovat trojúhelník</button>
+        </div>
+        <div class="separator"></div>
+        <div id="colorSelect">
+            <span><b>Barvy</b></span>
+            <label for="colorOdd"><b>Lichá čísla:</b>
+                <select name="colorOdd" id="colorOdd">
+                    <option value="black" selected="selected">Černá</option>
+                    <option value="white">Bílá</option>
+                    <option value="#007FFF">Modrá</option>
+                    <option value="red">Červená</option>
+                    <option value="green">Zelená</option>
+                    <option value="orange">Oranžová</option>
+                </select>
+            </label>
+            <label for="colorEven"><b>Sudá čísla:</b>
+                <select name="colorEven" id="colorEven" style="margin-left: 2px">
+                    <option value="black">Černá</option>
+                    <option value="white" selected="selected">Bílá</option>
+                    <option value="#007FFF">Modrá</option>
+                    <option value="red">Červená</option>
+                    <option value="green">Zelená</option>
+                    <option value="orange">Oranžová</option>
+                </select>
+            </label>
+        </div>
+        <div class="separator"></div>
+        <div id="extraOptions">
+            <span><b>Další možnosti</b></span>
+            <label for="numDisplay"> Čísla
+                <input checked type="checkbox" name="numDisplay" id="numDisplay" style="margin-left: 14px;">
+            </label>
+            <label for="grid"> Mřížka
+                <input type="checkbox" name="grid" id="grid">
+            </label>
+        </div>
+    </div>
+
+    <div id="pascalsContainer"></div>
+</body>
+
+<script>
+    let result = 1;
+    let i = 0;
+    let o = 0;
+    
+    function generateSquare(){
+        let square = document.createElement("div");
+        if(document.getElementById("numDisplay").checked == true) square.innerHTML = result.toString().charAt(result.toString().length-1);
+        square.setAttribute("title", result);
+
+        if(result % 2){
+            square.className = "square odd";
+            square.style.setProperty("background-color", document.getElementById("colorOdd").value);
+        }
+        else{
+            square.className = "square even";
+            square.style.setProperty("background-color", document.getElementById("colorEven").value);
+        }
+
+        if(square.style.backgroundColor == "black") square.style.setProperty("color", "white");
+        if(square.style.backgroundColor == "white") square.style.setProperty("color", "black");
+
+        if(document.getElementById("grid").checked) {
+            if(square.style.backgroundColor == "black") {
+                square.style.setProperty("border-left", "1px solid white");
+                square.style.setProperty("border-top", "1px solid white");
+            }
+            
+            else if(square.style.backgroundColor == "white"){
+                square.style.setProperty("border-left", "1px solid black");
+                square.style.setProperty("border-top", "1px solid black");
+            }
+            else {
+                square.style.setProperty("border-left", "1px solid black");
+                square.style.setProperty("border-top", "1px solid black");
+            }
+        }
+
+        document.getElementsByClassName("row")[i].appendChild(square);
+    }
+
+    function generateTriangle(lineCount){
+        for(i = 0; i < lineCount; i++){
+            
+            let row = document.createElement("div");
+            row.className = "row";
+            document.getElementById("pascalsContainer").appendChild(row);
+
+            for(o = 0; o < thingamajig; o++){
+                generateSquare();
+                result = result * (thingamajig - o) / (o + 1);
+            }
+        generateSquare();
+        thingamajig++;
+        }
+    }
+  
+    let lineCount = document.getElementById("rowNum").valueAsNumber;
+    let thingamajig = 0;
+    generateTriangle(lineCount);
+    
+    if(document.getElementById("grid").checked == true) {
+        for(let n = 0; n < lineCount; n++) {
+            if(document.getElementById("colorOdd").value == "black") {
+                document.getElementsByClassName("row")[n].lastChild.style.setProperty("border-right", "1px solid white");
+            }
+            else if(document.getElementById("colorOdd").value == "white") {
+                document.getElementsByClassName("row")[n].lastChild.style.setProperty("border-right", "1px solid black");
+            }
+            else {
+                document.getElementsByClassName("row")[n].lastChild.style.setProperty("border-right", "1px solid black");
+            }
+        }
+    }
+
+</script>
+
+</html>
