@@ -124,7 +124,7 @@
             <label for="""><b>Zadejte počet řádků:</b>
                 <input id="rowNum" type="number">
             </label>
-            <button onclick="document.location.reload()">Vygenerovat trojúhelník</button>
+            <button onclick="deleteTriangle();generateTriangle()">Vygenerovat trojúhelník</button>
         </div>
         <div class="separator"></div>
         <div id="colorSelect">
@@ -162,7 +162,7 @@
         </div>
     </div>
 
-    <div id="pascalsContainer"></div>
+    
 </body>
 
 <script>
@@ -207,6 +207,11 @@
     }
 
     function generateTriangle(lineCount){
+        makePasc = document.createElement("div");
+        makePasc.id = "pascalsContainer";
+        document.body.appendChild(makePasc);
+
+        lineCount = document.getElementById("rowNum").valueAsNumber;
         for(i = 0; i < lineCount; i++){
             
             let row = document.createElement("div");
@@ -219,6 +224,14 @@
             }
         generateSquare();
         thingamajig++;
+        }
+        lineCount = 0;
+        thingamajig = 0;
+    }
+
+    function deleteTriangle() {
+        if(document.getElementById("pascalsContainer")) {
+            document.getElementById("pascalsContainer").remove();
         }
     }
   
